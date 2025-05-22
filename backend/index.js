@@ -14,4 +14,17 @@ app.get("/users", async (req, res) => {
   res.json(users);
 });
 
+app.post("/users", async (req, res) => {
+  const { name, email } = req.body;
+  try {
+    const user = await prisma.user.create({
+      data: { name, email },
+    });
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: "User creation failed" });
+  }
+});
+
 app.listen(3001, () => console.log("Server running on http://localhost:3001"));
