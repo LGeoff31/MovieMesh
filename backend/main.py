@@ -22,6 +22,9 @@ class MovieOut(BaseModel):
     title: str
     year: int | None
     imdb_rating: float | None
+    certificate: str | None
+    runtime_min: int | None
+    poster_link: str | None
 
 class ReviewIn(BaseModel):
     rating: int = Field(..., ge=1, le=10)
@@ -38,7 +41,7 @@ class ReviewOut(BaseModel):
 def search(q: str, db=Depends(get_db)):
     rows = fetch_all(
         db,
-        text("""SELECT movie_id, title, year, imdb_rating
+        text("""SELECT movie_id, title, year, imdb_rating, certificate, runtime_min, poster_link
                 FROM movies WHERE title LIKE :pat ORDER BY year DESC LIMIT 30"""),
         pat=f"%{q}%")
     return rows
