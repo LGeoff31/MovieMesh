@@ -6,6 +6,7 @@ from sqlalchemy import text
 from pydantic import BaseModel, Field
 from typing import List
 from .database import get_db, fetch_all
+from datetime import datetime
 
 app = FastAPI(title="IMDB-Clone API", docs_url="/api/docs", openapi_url="/api/openapi.json")
 
@@ -30,7 +31,7 @@ class ReviewOut(BaseModel):
     review_id: int
     rating: int
     comment_txt: str
-    created_at: str
+    created_at: datetime
 
 # ─────────────────────────── ROUTES ────────────────────────────
 @app.get("/api/search", response_model=List[MovieOut])
