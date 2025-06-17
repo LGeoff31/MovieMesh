@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from pydantic import BaseModel, Field
 from typing import List
-from .database import get_db, fetch_all
+from database import get_db, fetch_all
 from datetime import datetime
 
 app = FastAPI(title="IMDB-Clone API", docs_url="/api/docs", openapi_url="/api/openapi.json")

@@ -96,6 +96,12 @@ Wait until “Loaded ✅”
 
 ## 5. Run the Back-End (FastAPI)
 
+Newer:
+```shell
+fastapi dev main.py
+```
+
+Older:
 ```shell
 uvicorn backend.main:app --reload
 ```
