@@ -3,39 +3,21 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
-from pydantic import BaseModel, Field
 from typing import List
 from database import get_db, fetch_all
-from datetime import datetime
 from utils.sql_utils import load_sql
+from models.models import MovieOut, ReviewIn, ReviewOut
+from routes.reviews_routes import router as reviews_router
+
 
 app = FastAPI(title="IMDB-Clone API", docs_url="/api/docs", openapi_url="/api/openapi.json")
+# app.include_router(reviews_router, prefix="/api") // TODO: fix
 
 # allow front-end JS served by same host
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], allow_methods=["*"], allow_headers=["*"]
 )
-
-# ─────────────────────────── MODELS ────────────────────────────
-class MovieOut(BaseModel):
-    movie_id: int
-    title: str
-    year: int | None
-    imdb_rating: float | None
-    certificate: str | None
-    runtime_min: int | None
-    poster_link: str | None
-
-class ReviewIn(BaseModel):
-    rating: int = Field(..., ge=1, le=10)
-    comment: str = Field(..., max_length=1000)
-
-class ReviewOut(BaseModel):
-    review_id: int
-    rating: int
-    comment_txt: str
-    created_at: datetime
 
 # ─────────────────────────── ROUTES ────────────────────────────
 @app.get("/api/search", response_model=List[MovieOut])
