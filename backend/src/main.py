@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 from typing import List
 from database import get_db, fetch_all
 from datetime import datetime
+from utils.sql_utils import load_sql
 
 app = FastAPI(title="IMDB-Clone API", docs_url="/api/docs", openapi_url="/api/openapi.json")
 
@@ -39,66 +40,53 @@ class ReviewOut(BaseModel):
 # ─────────────────────────── ROUTES ────────────────────────────
 @app.get("/api/search", response_model=List[MovieOut])
 def search(q: str, db=Depends(get_db)):
-    rows = fetch_all(
-        db,
-        text("""SELECT movie_id, title, year, imdb_rating, certificate, runtime_min, poster_link
-                FROM movies WHERE title LIKE :pat ORDER BY year DESC LIMIT 30"""),
-        pat=f"%{q}%")
+    sql = text(load_sql("search_movies.sql"))
+    rows = fetch_all(db, sql, pat=f"%{q}%")
     return rows
 
 @app.get("/api/movies/{movie_id}")
 def movie_detail(movie_id: int, db=Depends(get_db)):
-    movie = db.execute(text("SELECT * FROM movies WHERE movie_id=:id"), {"id": movie_id}).mappings().first()
+    movie_sql = text(load_sql("detail/get_movie.sql"))
+    movie = db.execute(movie_sql, {"id": movie_id}).mappings().first()
+
     if not movie:
         raise HTTPException(404, "Movie not found")
 
-    directors = fetch_all(db, text("""
-        SELECT p.name FROM people p
-        JOIN movie_directors md USING(person_id)
-        WHERE md.movie_id=:id
-    """), id=movie_id)
+    directors_sql = text(load_sql("detail/get_directors.sql"))
+    directors_rows = fetch_all(db, directors_sql, id=movie_id)
 
-    cast = fetch_all(db, text("""
-        SELECT p.name, mc.cast_order FROM people p
-        JOIN movie_cast mc USING(person_id)
-        WHERE mc.movie_id=:id ORDER BY mc.cast_order
-    """), id=movie_id)
+    cast_sql = text(load_sql("detail/get_cast.sql"))
+    cast_rows = fetch_all(db, cast_sql, id=movie_id)
 
-    genres = fetch_all(db, text("""
-        SELECT g.name FROM genres g
-        JOIN movie_genres mg USING(genre_id)
-        WHERE mg.movie_id=:id
-    """), id=movie_id)
+    genres_sql = text(load_sql("detail/get_genres.sql"))
+    genres_rows = fetch_all(db, genres_sql, id=movie_id)
 
-    reviews = fetch_all(db, text("""
-        SELECT AVG(rating) AS avg_rating, COUNT(*) AS num_reviews
-        FROM reviews WHERE movie_id=:id
-    """), id=movie_id)[0]
+    summary_sql = text(load_sql("detail/get_reviews_summary.sql"))
+    reviews_summary = db.execute(summary_sql, {"id": movie_id}).mappings().first()
 
     return {
         "movie": movie,
-        "directors": [d["name"] for d in directors],
-        "cast":      [c["name"] for c in cast],
-        "genres":    [g["name"] for g in genres],
-        "reviews_summary": reviews
+        "directors": [d["name"] for d in directors_rows],
+        "cast":      [c["name"] for c in cast_rows],
+        "genres":    [g["name"] for g in genres_rows],
+        "reviews_summary": reviews_summary
     }
 
 @app.get("/api/movies/{movie_id}/reviews", response_model=List[ReviewOut])
 def list_reviews(movie_id: int, db=Depends(get_db)):
-    rows = fetch_all(db, text("""
-        SELECT review_id, rating, comment_txt, created_at
-        FROM reviews WHERE movie_id=:id ORDER BY created_at DESC
-    """), id=movie_id)
+    reviews_sql = text(load_sql("reviews/get_reviews_by_movie.sql"))
+    rows = fetch_all(db, reviews_sql, id=movie_id)
     return rows
 
 @app.post("/api/movies/{movie_id}/reviews", status_code=status.HTTP_201_CREATED)
 def add_review(movie_id: int, rev: ReviewIn, db=Depends(get_db)):
     # ensure movie exists
-    if not db.execute(text("SELECT 1 FROM movies WHERE movie_id=:id"), {"id": movie_id}).first():
+    exists_sql = text(load_sql("reviews/check_movie_exists.sql"))
+    if not db.execute(exists_sql, {"id": movie_id}).first():
         raise HTTPException(404, "Movie not found")
-    res = db.execute(text("""
-        INSERT INTO reviews(movie_id, rating, comment_txt) VALUES(:m,:r,:c)
-    """), {"m": movie_id, "r": rev.rating, "c": rev.comment})
+
+    insert_sql = text(load_sql("reviews/add_review.sql"))
+    res = db.execute(insert_sql, {"m": movie_id, "r": rev.rating, "c": rev.comment})
     db.commit()
     return JSONResponse({"review_id": res.lastrowid}, status_code=201)
 
