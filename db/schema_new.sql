@@ -16,10 +16,7 @@ CREATE TABLE
         year YEAR,
         runtime_min SMALLINT,
         certificate VARCHAR(10),
-        imdb_rating DECIMAL(3, 1),
-        votes INT,
         overview TEXT,
-        metascore SMALLINT,
         gross_usd BIGINT,
         poster_link VARCHAR(512),
         INDEX idx_title (title)
@@ -41,6 +38,28 @@ CREATE TABLE
     IF NOT EXISTS genres (
         genre_id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(50) NOT NULL UNIQUE
+    );
+
+CREATE TABLE
+    IF NOT EXISTS reviews (
+        review_id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        movie_id INT NOT NULL,
+        rating TINYINT CHECK (rating BETWEEN 1 AND 10),
+        comment_txt TEXT,
+        reviewer_ip VARCHAR(45),
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
+        FOREIGN KEY (movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE
+    );
+
+CREATE TABLE
+    IF NOT EXISTS movie_rating (
+        movie_id     INT PRIMARY KEY,
+        rating   DECIMAL(3,1),
+        votes  INT,
+        last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE
     );
 
 CREATE TABLE
@@ -71,16 +90,3 @@ CREATE TABLE
         FOREIGN KEY (genre_id) REFERENCES genres (genre_id) ON DELETE CASCADE
     );
 
-CREATE TABLE
-    IF NOT EXISTS reviews (
-        review_id INT AUTO_INCREMENT PRIMARY KEY,
-        user_id INT NOT NULL,
-        movie_id INT NOT NULL,
-        rating TINYINT CHECK (rating BETWEEN 1 AND 10),
-        comment_txt TEXT,
-        reviewer_ip VARCHAR(45),
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
-        FOREIGN KEY (movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE
-    );
-    
