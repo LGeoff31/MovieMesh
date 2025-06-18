@@ -40,7 +40,7 @@ class ReviewOut(BaseModel):
 # ─────────────────────────── ROUTES ────────────────────────────
 @app.get("/api/search", response_model=List[MovieOut])
 def search(q: str, db=Depends(get_db)):
-    sql = text(load_sql("search_movies.sql"))
+    sql = text(load_sql("utils/search_movies.sql"))
     rows = fetch_all(db, sql, pat=f"%{q}%")
     return rows
 
