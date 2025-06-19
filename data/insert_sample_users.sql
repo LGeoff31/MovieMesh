@@ -1,6 +1,3 @@
--- Sample users for imdb_clone database
--- Note: These are bcrypt hashes for the password "password123" for testing purposes
-
 INSERT INTO users (username, password_hash, name) VALUES
 ('moviebuff2024', '$2b$12$LQv3c1yqBwLFohDcruKuiOHCs4wUZopotL5PMwxxSzV6zKqFrQhHG', 'Alex Thompson'),
 ('cinemafan', '$2b$12$LQv3c1yqBwLFohDcruKuiOHCs4wUZopotL5PMwxxSzV6zKqFrQhHG', 'Sarah Chen'),
