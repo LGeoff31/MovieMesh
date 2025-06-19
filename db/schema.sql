@@ -44,7 +44,7 @@ CREATE TABLE
     IF NOT EXISTS reviews (
         review_id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
-        movie_id INT NOT NULL,
+        movie_id INT NOT NULL UNIQUE,
         rating TINYINT CHECK (rating BETWEEN 1 AND 10),
         comment_txt TEXT,
         reviewer_ip VARCHAR(45),
