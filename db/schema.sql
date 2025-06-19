@@ -59,7 +59,8 @@ CREATE TABLE
         rating   DECIMAL(3,1),
         votes  INT,
         last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        FOREIGN KEY (movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE
+        FOREIGN KEY (movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE,
+        CHECK (rating BETWEEN 0 AND 10)
     );
 
 CREATE TABLE
