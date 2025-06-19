@@ -1,3 +1,5 @@
+-- advanced feature: movie card view
+
 CREATE VIEW v_movie_card AS
 SELECT m.movie_id,
     m.title,

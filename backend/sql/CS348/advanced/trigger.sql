@@ -1,3 +1,5 @@
+-- advanced feature: trigger to update movie rating
+
 DELIMITER $$
 CREATE TRIGGER trg_reviews
 AFTER INSERT ON reviews

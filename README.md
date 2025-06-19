@@ -1,19 +1,17 @@
-# CS-348 Course Project
+# CS-348 Course Project: MovieMesh
 
 This repository contains a complete full-stack project with:
 
 • MySQL 8 database  
 • Python / FastAPI back-end  
 • React + Vite front-end  
-• Kaggle “imdb_top_1000.csv” pre-loaded  
-• Features: movie search, movie details, anonymous reviews
 
 ## 0. Prerequisites
 
 - Python ≥ 3.10
 - Node ≥ 18 + npm
 - Git
-- MySQL 8 Community Server OR Docker (see appendix)
+- MySQL 8 Community Server
 
 ## 1. Getting Started
 
@@ -29,20 +27,23 @@ Folder structure:
 .  
 ├─ backend/ ← FastAPI code  
 ├─ db/ ← schema.sql  
-├─ data/ ← imdb_top_1000.csv (place file here)  
-├─ scripts/ ← CSV loader  
-├─ frontend/ ← React app (created by Vite)  
-├─ requirements.txt ← Python deps  
+├─ data/ ← imdb_top_1000.csv
+├─ scripts/ ← CSV loader(s) 
+├─ frontend/ ← React app 
+├─ requirements.txt ← Python dependencies 
 └─ README.md
 
 ## 2. MySQL Setup (Native Install)
 
-Install MySQL Community Server: (Windows MSI or use `choco install mysql` / `winget install Oracle.MySQL`)
+Install MySQL Community Server: 
+Mac: `brew install mysql`
+Windows: Windows MSI or use `choco install mysql` / `winget install Oracle.MySQL`
 
 ### Create database & user:
 
-Open PowerShell:
+Open Terminal:
 
+Start mysql
 ```shell
 mysql -u root -p
 ```
@@ -59,24 +60,22 @@ exit
 
 ### Load the schema:
 
-PowerShell:
+Terminal:
 
 ```shell
 Get-Content db\schema.sql | mysql -u imdb_app -p imdb_clone
 ```
 
-(If you prefer Docker instead of native install see Appendix A.)
-
 ## 3. Python Environment Setup
 
-PowerShell:
+Terminal:
 
 ```shell
 python -m venv venv
 .\venv\Scripts\Activate # mac/linux: source venv/bin/activate
 ```
 
-Install dependencies
+Install dependencies from requirements.txt
 
 ```shell
 pip install -r requirements.txt

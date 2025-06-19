@@ -1,3 +1,5 @@
+-- advanced feature: find costars of an actor
+
 WITH RECURSIVE co_stars(actor_id, depth, path) AS (
     SELECT
            :start_id, 0, CAST(:start_id AS CHAR(200))
