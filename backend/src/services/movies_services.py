@@ -10,6 +10,15 @@ def search_movies(db, search_term: str):
     rows = fetch_all(db, sql, pat=f"%{search_term}%")
     return rows
 
+def get_random_movie(db):
+    """Get random movie"""
+    sql = text(load_sql("detail/get_random_movie.sql"))
+    rows = fetch_all(db, sql)
+    
+    if not rows:
+        raise HTTPException(404, "No movies found")
+    
+    return rows
 
 def get_movie_detail(db, movie_id: int):
     """Get detailed movie information including cast, directors, genres, and review summary"""

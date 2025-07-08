@@ -1,8 +1,11 @@
+import Featured from "../components/Featured";
+
 const Home = () => {
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <>
+      <Featured />
+      <h1 className="text-2xl font-bold">Recent Reviews</h1>
+    </>
   )
 }
 
