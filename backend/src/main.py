@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, Cookie, Response
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -71,6 +71,33 @@ def add_review(movie_id: int, rev: ReviewIn, db=Depends(get_db)):
     res = db.execute(insert_sql, {"m": movie_id, "r": rev.rating, "c": rev.comment})
     db.commit()
     return JSONResponse({"review_id": res.lastrowid}, status_code=201)
+
+@app.post("/api/login")
+def login(data: dict, response: Response):
+    # Replace with real authentication logic
+    if data["username"] == "user" and data["password"] == "pass":
+        # Set a secure, HTTP-only cookie
+        response.set_cookie(
+            key="session", 
+            value="some-session-token", 
+            httponly=True, 
+            secure=True, 
+            samesite="lax"
+        )
+        return {"message": "Logged in"}
+    raise HTTPException(status_code=401, detail="Invalid credentials")
+
+@app.post("/api/logout")
+def logout(response: Response):
+    response.delete_cookie("session")
+    return {"message": "Logged out"}
+
+@app.get("/api/check-auth")
+def check_auth(session: str = Cookie(None)):
+    if session == "some-session-token":
+        return {"logged_in": True}
+    return JSONResponse({"logged_in": False}, status_code=401)
+
 
 # ───────────────────────── STATIC FRONTEND ─────────────────────
 app.mount("/", StaticFiles(directory="../frontend", html=True), name="frontend")
