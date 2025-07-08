@@ -5,7 +5,7 @@ import { SearchContext } from "./SearchContext";
 
 const SearchBar = () => {
   const [term, setTerm] = useState("");
-  const {searchResults, setSearchResults} = useContext(SearchContext);
+  const {setSearchResults} = useContext(SearchContext);
 
   const navigate = useNavigate();
 

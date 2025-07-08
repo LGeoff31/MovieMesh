@@ -35,6 +35,7 @@ def get_current_user_info(
     credentials: HTTPAuthorizationCredentials = Depends(security),
     db=Depends(get_db)
 ):
+    print("Getting current user information")
     """Get current user information"""
     if not credentials:
         raise HTTPException(
