@@ -26,7 +26,7 @@ export default function ReviewForm({ movieId, onSubmit }) {
           value={rating} 
           onChange={e=>setRating(e.target.value)} 
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 border border-gray-400 rounded-md focus:border-blue-500"
         />
       </div>
       <div>
@@ -38,12 +38,12 @@ export default function ReviewForm({ movieId, onSubmit }) {
           value={comment} 
           onChange={e=>setComment(e.target.value)} 
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 border border-gray-400 rounded-md focus:border-blue-500"
         />
       </div>
       <button 
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200"
+        className="w-full bg-blue-800 text-white py-2 px-4 rounded-md hover:bg-blue-900 transition duration-200 cursor-pointer"
       >
         Submit
       </button>

@@ -1,11 +1,20 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import Lists from "./Lists";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
   
   return (
     <nav className="w-full bg-gray-900 text-white mb-4">
@@ -17,9 +26,12 @@ const Navbar = () => {
         <SearchBar />
         <Lists />
         <div>
-        {!isLoginPage && <Link to="/login">
+          {!isLoggedIn && <Link to="/login">
             <button className="bg-white text-gray-900 px-4 py-2 rounded-md hover:bg-gray-200 cursor-pointer">Login</button>
-        </Link>}
+          </Link>}
+          {isLoggedIn && <Link to="/">
+            <button className="bg-white text-gray-900 px-4 py-2 rounded-md hover:bg-gray-200 cursor-pointer">Logout</button>
+          </Link>}
         </div>
       </div>
       </div>

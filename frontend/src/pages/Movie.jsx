@@ -7,13 +7,19 @@ export default function Movie() {
   const { id } = useParams();
   const [info, setInfo] = useState(null);
   const [userRating, setUserRating] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   const colours = ["bg-red-600 border-red-600", "bg-red-600 border-red-600", "bg-red-600 border-red-600", "bg-orange-600 border-orange-600", "bg-orange-600 border-orange-600", "bg-orange-600 border-orange-600", "bg-yellow-600 border-yellow-600", "bg-yellow-600 border-yellow-600", "bg-green-700 border-green-700", "bg-green-700 border-green-700"]
 
   useEffect(() => {
     fetch(`/api/movies/${id}`)
       .then((r) => r.json())
-      .then(setInfo);
+      .then(setInfo)
+      .then(() => {
+        fetch(`/api/reviews?movieId=${id}`)
+          .then((r) => r.json())
+          .then(setReviews);
+      });
   }, [id]);
 
   if (!info) return (
@@ -84,10 +90,6 @@ export default function Movie() {
           </div>
           <p className="m-1 py-2 text-lg text-gray-700">{m.overview}</p>
         </div>
-      </div>
-
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">

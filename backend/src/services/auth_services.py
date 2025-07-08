@@ -1,26 +1,30 @@
-from fastapi import HTTPException, Response
+from fastapi import HTTPException, Response, status
+from datetime import timedelta
+from services.user_services import (
+    authenticate_user, 
+    create_access_token, 
+    get_current_user,
+    ACCESS_TOKEN_EXPIRE_MINUTES
+)
+from models.models import UserLogin, Token
 
 
-def authenticate_user(username: str, password: str) -> bool:
-    """Authenticate user credentials - replace with real authentication logic"""
-    # TODO: Replace with real authentication logic (database lookup, password hashing, etc.)
-    return username == "user" and password == "pass"
-
-
-def login_user(response: Response, username: str, password: str):
-    """Handle user login and set session cookie"""
-    if not authenticate_user(username, password):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+def login_user(db, user_login: UserLogin) -> Token:
+    """Handle user login with JWT token"""
+    user = authenticate_user(db, user_login.username, user_login.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     
-    # Set a secure, HTTP-only cookie
-    response.set_cookie(
-        key="session", 
-        value="some-session-token",  # TODO: Generate real session token
-        httponly=True, 
-        secure=True, 
-        samesite="lax"
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.username}, expires_delta=access_token_expires
     )
-    return {"message": "Logged in"}
+    
+    return Token(access_token=access_token, token_type="bearer")
 
 
 def logout_user(response: Response):
@@ -29,8 +33,20 @@ def logout_user(response: Response):
     return {"message": "Logged out"}
 
 
-def check_authentication(session: str = None) -> dict:
-    """Check if user is authenticated based on session"""
-    if session == "some-session-token":  # TODO: Validate real session token
-        return {"logged_in": True}
-    return {"logged_in": False} 
+def check_authentication(db, token: str = None) -> dict:
+    """Check if user is authenticated based on JWT token"""
+    if not token:
+        return {"logged_in": False}
+    
+    try:
+        user = get_current_user(db, token)
+        return {
+            "logged_in": True,
+            "user": {
+                "user_id": user.user_id,
+                "username": user.username,
+                "name": user.name
+            }
+        }
+    except HTTPException:
+        return {"logged_in": False} 

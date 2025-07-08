@@ -7,8 +7,6 @@ const SearchBar = () => {
   const [term, setTerm] = useState("");
   const {searchResults, setSearchResults} = useContext(SearchContext);
 
-  console.log(searchResults);
-
   const navigate = useNavigate();
 
   const submit = (e) => {
