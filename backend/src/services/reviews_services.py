@@ -6,11 +6,13 @@ def check_movie_exists(movie_id, db):
     sql = text(load_sql("reviews/check_movie_exists.sql"))
     return db.execute(sql, {"id": movie_id}).first()
 
-def add_review(movie_id, user_id, rating, comment, db):
+def add_review(movie_id, rating, comment, db):
     sql = text(load_sql("reviews/add_review.sql"))
-    db.execute(sql, {"m": movie_id, "u": user_id, "r": rating, "c": comment})
+    res = db.execute(sql, {"m": movie_id, "r": rating, "c": comment})
     db.commit()
+    return res.lastrowid
 
 def get_reviews_by_movie(movie_id, db):
     sql = text(load_sql("reviews/get_reviews_by_movie.sql"))
-    return db.execute(sql, {"id": movie_id}).fetchall()
+    rows = db.execute(sql, {"id": movie_id}).mappings().all()
+    return rows

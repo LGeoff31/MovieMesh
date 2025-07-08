@@ -1,32 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import { SearchContext } from "../components/SearchContext";
 
 export default function Search() {
-  const [term, setTerm] = useState("");
-  const [data, setData] = useState([]);
-
-  const submit = (e) => {
-    e.preventDefault();
-    if (!term.trim()) return;
-    fetch(`/api/search?q=${encodeURIComponent(term)}`)
-      .then((r) => r.json())
-      .then(setData);
-  };
+  const {searchResults, setSearchResults} = useContext(SearchContext);
 
   return (
     <>
-      <form onSubmit={submit} className="mb-6">
-        <input
-          type="text"
-          value={term}
-          onChange={(e) => setTerm(e.target.value)}
-          placeholder="Search movies..."
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        />
-      </form>
-
       <div className="space-y-2">
-        {data.map((m) => (
+        {searchResults.map((m) => (
           <div
             key={m.movie_id}
             className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50"

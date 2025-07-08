@@ -74,8 +74,8 @@ export default function Movie() {
       </div>
 
       <p className="mb-6 italic text-gray-600">
-        {info.reviews_summary.num_reviews} user reviews, average{" "}
-        {(info.reviews_summary.avg_rating || 0).toFixed(1)}
+          {info.reviews_summary.num_reviews} user reviews, average{" "}
+          {(info.reviews_summary.avg_rating || 0).toFixed(1)}
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
