@@ -4,16 +4,7 @@ import Navbar from "../components/Navbar";
 import { SearchContext } from "../components/SearchContext";
 
 export default function Search() {
-  const [term, setTerm] = useState("");
   const {searchResults, setSearchResults} = useContext(SearchContext);
-
-  const submit = (e) => {
-    e.preventDefault();
-    if (!term.trim()) return;
-    fetch(`/api/search?q=${encodeURIComponent(term)}`)
-      .then((r) => r.json())
-      .then(setData);
-  };
 
   return (
     <>

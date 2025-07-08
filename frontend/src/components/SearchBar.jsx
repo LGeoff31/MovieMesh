@@ -14,7 +14,7 @@ const SearchBar = () => {
   const submit = (e) => {
     e.preventDefault();
     if (!term.trim()) return;
-    fetch(`/api/search?q=${encodeURIComponent(term)}`)
+    fetch(`/api/movies/search?q=${encodeURIComponent(term)}`)
       .then((r) => r.json())
       .then(setSearchResults);
     navigate(`/search?q=${encodeURIComponent(term)}`);
