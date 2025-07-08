@@ -6,6 +6,9 @@ import ReviewList from "../components/ReviewList";
 export default function Movie() {
   const { id } = useParams();
   const [info, setInfo] = useState(null);
+  const [userRating, setUserRating] = useState(null);
+
+  const colours = ["bg-red-600 border-red-600", "bg-red-600 border-red-600", "bg-red-600 border-red-600", "bg-orange-600 border-orange-600", "bg-orange-600 border-orange-600", "bg-orange-600 border-orange-600", "bg-yellow-600 border-yellow-600", "bg-yellow-600 border-yellow-600", "bg-green-700 border-green-700", "bg-green-700 border-green-700"]
 
   useEffect(() => {
     fetch(`/api/movies/${id}`)
@@ -19,6 +22,8 @@ export default function Movie() {
     </div>
   );
 
+  console.log(info);
+
   const m = info.movie;
 
   return (
@@ -30,53 +35,60 @@ export default function Movie() {
         <img
           src={m.poster_link}
           alt={m.title}
-          className="w-35 rounded mr-6"
-          style={{ width: 140 }}
+          className="w-1/4 rounded mr-6"
         />
-        <div>
-          <h2 className="text-3xl font-bold mb-4">
-            {m.title} ({m.year})
-          </h2>
+        <div className="flex flex-col justify-start w-full">
+          <div className="flex flex-row items-center justify-between">
+            <div>
+              <h1 className="text-5xl font-bold mb-2">
+                {m.title}
+              </h1>
+              <p className="mb-2">
+                <span className="inline-block bg-blue-800 text-white px-2 py-1 rounded text-sm mr-2">
+                  {m.certificate || "NR"}
+                </span>
+                <span className="mr-6">
+                  <strong>Runtime:</strong>{" "}
+                  {m.runtime_min ? `${m.runtime_min} min` : "N/A"}
+                </span>
+                <span>
+                  <strong>Gross:</strong>{" "}
+                  {m.gross_usd ? `$${(+m.gross_usd).toLocaleString()}` : "N/A"}
+                </span>
+              </p>
+            </div>
 
-          <p className="mb-2">
-            <span className="inline-block bg-blue-500 text-white px-2 py-1 rounded text-sm mr-2">
-              {m.certificate || "NR"}
-            </span>
-            <span className="mr-6">
-              <strong>Runtime:</strong>{" "}
-              {m.runtime_min ? `${m.runtime_min} min` : "N/A"}
-            </span>
-            <span>
-              <strong>Gross:</strong>{" "}
-              {m.gross_usd ? `$${(+m.gross_usd).toLocaleString()}` : "N/A"}
-            </span>
-          </p>
-
-          <p className="mb-2">
-            <strong>IMDB:</strong> {m.imdb_rating ?? "N/A"} |{" "}
-            <strong>Metascore:</strong> {m.metascore ?? "N/A"}
-          </p>
+            <div className="mb-2 flex flex-row items-center gap-4">
+              <div className="flex flex-col items-center border-2 border-gray-500 text-black rounded-lg py-2 px-4">
+                <p className="text-sm">Your Rating</p>
+                <p className="text-4xl font-black">{userRating ?? "N/A"}</p>
+              </div>
+              <div className={`flex flex-col items-center border-2 border-blue-900 ${colours[Math.floor(m.imdb_rating)]} text-white rounded-lg py-2 px-4`}>
+                <p className="text-sm">MovieMesh</p>
+                <p className="text-4xl font-black">{m.imdb_rating ?? "N/A"}</p>
+              </div>
+            </div>
+          </div>
+          <div className="py-3 m-1 flex flex-row gap-2">
+            {info.genres.map((genre) => (
+              <div className="px-3 py-1 border border-gray-400 rounded-3xl">
+                {genre}
+              </div>
+            ))}
+          </div>
+          <div className="p-3 m-1 border border-gray-400 rounded-lg">
+            <strong>Directors:</strong> {info.directors.join(", ")}
+          </div>
+          <div className="p-3 m-1 border border-gray-400 rounded-lg">
+            <strong>Cast:</strong> {info.cast.join(", ")}
+          </div>
+          <p className="m-1 py-2 text-lg text-gray-700">{m.overview}</p>
         </div>
       </div>
 
-      <p className="mb-6 text-gray-700">{m.overview}</p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="p-4 border border-gray-200 rounded-lg">
-          <strong>Directors:</strong> {info.directors.join(", ")}
-        </div>
-        <div className="p-4 border border-gray-200 rounded-lg">
-          <strong>Cast:</strong> {info.cast.join(", ")}
-        </div>
-        <div className="p-4 border border-gray-200 rounded-lg">
-          <strong>Genres:</strong> {info.genres.join(", ")}
-        </div>
       </div>
-
-      <p className="mb-6 italic text-gray-600">
-          {info.reviews_summary.num_reviews} user reviews, average{" "}
-          {(info.reviews_summary.avg_rating || 0).toFixed(1)}
-      </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
         <div>
