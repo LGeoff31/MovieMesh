@@ -4,14 +4,20 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import Search from "./pages/Search";
 import Movie from "./pages/Movie";
-import "bootstrap/dist/css/bootstrap.min.css";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Routes>
       <Route element={<App />}>
-        <Route path="/" element={<Search />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/movie/:id" element={<Movie />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile/:id" element={<Profile />} />
       </Route>
     </Routes>
   </BrowserRouter>
