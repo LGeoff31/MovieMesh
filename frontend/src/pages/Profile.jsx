@@ -39,6 +39,7 @@ export default function Profile() {
                 <span className="text-gray-700"> {r.title}: </span>
                 <span className="font-bold">{r.rating}/10</span>
                 <span className="ml-2 text-gray-700">– {r.comment_txt}</span>
+                <button className="bg-red-800 text-white float-right px-2 py-1 ml-2 rounded-md">Delete</button>
                 <span className="float-right text-sm text-gray-400">{r.created_at}</span>
             </li>
           </Link>

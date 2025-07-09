@@ -21,3 +21,8 @@ def get_reviews_by_user(user_id, db):
     sql = text(load_sql("reviews/get_reviews_by_user.sql"))
     rows = db.execute(sql, {"id": user_id}).mappings().all()
     return rows
+
+def delete_review(review_id, db):
+    sql = text(load_sql("reviews/delete_review.sql"))
+    db.execute(sql, {"id": review_id})
+    db.commit()

@@ -17,3 +17,8 @@ def add_review_endpoint(movie_id: int, rev: ReviewIn, db=Depends(get_db)):
 @router.get("/{movie_id}/reviews", response_model=List[ReviewOut])
 def list_reviews(movie_id: int, db=Depends(get_db)):
     return get_reviews_by_movie(movie_id, db)
+
+@router.delete("/{review_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_review(review_id: int, db=Depends(get_db)):
+    delete_review(review_id, db)
+    return JSONResponse(status_code=204)
