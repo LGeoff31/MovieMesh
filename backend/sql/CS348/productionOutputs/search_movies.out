@@ -1,0 +1,8 @@
+:pat = "%the godfather%"
++----------+-------------------------+------+-------------+-------------+-------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| movie_id | title                   | year | imdb_rating | certificate | runtime_min | poster_link                                                                                                                                       |
++----------+-------------------------+------+-------------+-------------+-------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+|      975 | The Godfather: Part III | 1990 |         7.6 | A           |         162 | https://m.media-amazon.com/images/M/MV5BNWFlYWY2YjYtNjdhNi00MzVlLTg2MTMtMWExNzg4NmM5NmEzXkEyXkFqcGdeQXVyMDk5Mzc5MQ@@._V1_UX67_CR0,0,67,98_AL_.jpg |
+|        4 | The Godfather: Part II  | 1974 |         9.0 | A           |         202 | https://m.media-amazon.com/images/M/MV5BMWMwMGQzZTItY2JlNC00OWZiLWIyMDctNDk2ZDQ2YjRjMWQ0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UY98_CR1,0,67,98_AL_.jpg |
+|        2 | The Godfather           | 1972 |         9.2 | A           |         175 | https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UY98_CR1,0,67,98_AL_.jpg |
++----------+-------------------------+------+-------------+-------------+-------------+---------------------------------------------------------------------------------------------------------------------------------------------------+

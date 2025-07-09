@@ -4,7 +4,7 @@ This repository contains a complete full-stack project with:
 
 • MySQL 8 database  
 • Python / FastAPI back-end  
-• React + Vite front-end  
+• React + Vite front-end
 
 ## 0. Prerequisites
 
@@ -81,7 +81,7 @@ Install dependencies from requirements.txt
 pip install -r requirements.txt
 ```
 
-## 4. Import the CSV
+## 4. Import the CSV and Generate Production Data
 
 Download Kaggle dataset `imdb_top_1000.csv` into `data/`.
 
@@ -89,6 +89,23 @@ Run the loader (venv must be active):
 
 ```shell
 python scripts\load_data.py data\imdb_top_1000.csv
+```
+
+Wait until “Loaded ✅”
+
+To generate production review and user datasets:
+
+Run the generators:
+
+```shell
+python scripts/generate_users.py 
+python scripts/generate_reviews.py  
+```
+
+Then run the loaders:
+```shell
+python scripts/load_users.py data/users.csv
+python scripts/load_reviews.py data/reviews.csv
 ```
 
 Wait until “Loaded ✅”
