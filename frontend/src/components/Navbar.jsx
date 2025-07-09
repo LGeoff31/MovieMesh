@@ -1,22 +1,12 @@
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import Lists from "./Lists";
-import { useEffect, useState, useContext } from "react";
+import { useContext } from "react";
 import { SearchContext } from "./SearchContext";
 
 const Navbar = () => {
-  const {isLoggedIn, setIsLoggedIn, user} = useContext(SearchContext);
+  const {isLoggedIn, user} = useContext(SearchContext);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
-
-  
   return (
     <nav className="w-full bg-gray-900 text-white mb-4">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,7 +26,7 @@ const Navbar = () => {
               <button className="bg-white text-gray-900 px-4 py-2 rounded-md hover:bg-gray-200 cursor-pointer">Logout</button>
             </Link>
             <Link to={`/profile/${user.user_id}`}>
-              <img src={`/profile.jpg`} alt="Profile" className="w-10 h-10 rounded-full cursor-pointer hover:scale-110 transition-all duration-300" />
+              <img src={"/profile.jpg"} alt="Profile" className="w-10 h-10 rounded-full cursor-pointer hover:scale-110 transition-all duration-300" />
             </Link>
           </div>}
         </div>

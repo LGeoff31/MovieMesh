@@ -1,25 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
+import { SearchContext } from "../components/SearchContext";
 
 export default function Movie() {
   const { id } = useParams();
   const [info, setInfo] = useState(null);
   const [userRating, setUserRating] = useState(null);
-  const [reviews, setReviews] = useState([]);
+
+  const {user} = useContext(SearchContext);
 
   const colours = ["bg-red-600 border-red-600", "bg-red-600 border-red-600", "bg-red-600 border-red-600", "bg-orange-600 border-orange-600", "bg-orange-600 border-orange-600", "bg-orange-600 border-orange-600", "bg-yellow-600 border-yellow-600", "bg-yellow-600 border-yellow-600", "bg-green-700 border-green-700", "bg-green-700 border-green-700"]
 
   useEffect(() => {
     fetch(`/api/movies/${id}`)
       .then((r) => r.json())
-      .then(setInfo)
-      .then(() => {
-        fetch(`/api/reviews?movieId=${id}`)
-          .then((r) => r.json())
-          .then(setReviews);
-      });
+      .then(setInfo);
   }, [id]);
 
   if (!info) return (
@@ -27,8 +24,6 @@ export default function Movie() {
       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
     </div>
   );
-
-  console.log(info);
 
   const m = info.movie;
 
@@ -77,7 +72,7 @@ export default function Movie() {
           </div>
           <div className="py-3 m-1 flex flex-row gap-2">
             {info.genres.map((genre) => (
-              <div className="px-3 py-1 border border-gray-400 rounded-3xl">
+              <div className="px-3 py-1 border border-gray-400 rounded-3xl" key={genre}>
                 {genre}
               </div>
             ))}

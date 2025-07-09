@@ -14,12 +14,23 @@ class MovieOut(BaseModel):
 class ReviewIn(BaseModel):
     rating: int = Field(..., ge=1, le=10)
     comment: str = Field(..., max_length=1000)
+    user_id: int
 
 class ReviewOut(BaseModel):
     review_id: int
     rating: int
     comment_txt: str
     created_at: datetime
+    username: str
+
+class ReviewOutWithMovie(BaseModel):
+    review_id: int
+    rating: int
+    comment_txt: str
+    created_at: datetime
+    username: str
+    title: str
+    movie_id: int
 
 # User Models
 class UserCreate(BaseModel):

@@ -1,5 +1,3 @@
--- basic feature: display reviews made by a user
-
 SELECT r.review_id,
        r.rating,
        r.comment_txt,

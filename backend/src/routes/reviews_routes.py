@@ -11,7 +11,7 @@ router = APIRouter()
 def add_review_endpoint(movie_id: int, rev: ReviewIn, db=Depends(get_db)):
     if not check_movie_exists(movie_id, db):
         raise HTTPException(404, "Movie not found")
-    review_id = add_review(movie_id, rev.rating, rev.comment, db)
+    review_id = add_review(movie_id, rev.rating, rev.comment, rev.user_id, db)
     return JSONResponse({"review_id": review_id}, status_code=201)
     
 @router.get("/{movie_id}/reviews", response_model=List[ReviewOut])
