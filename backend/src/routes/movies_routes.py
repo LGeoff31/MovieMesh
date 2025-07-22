@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from typing import List
 from database import get_db
 from models.models import MovieOut
-from services.movies_services import search_movies, get_movie_detail, get_random_movie
+from services.movies_services import search_movies, get_movie_detail, get_random_movie, search_autocomplete
 from datetime import datetime, timedelta
 
 router = APIRouter()
@@ -12,6 +12,11 @@ router = APIRouter()
 def search(q: str, db=Depends(get_db)):
     """Search for movies by title"""
     return search_movies(db, q)
+
+@router.get("/autocomplete", response_model=List[MovieOut])
+def autocomplete(q: str, db=Depends(get_db)):
+    """Autocomplete for movie titles"""
+    return search_autocomplete(db, q)
 
 _random_cache = {"movies": None, "last_updated": None} # cache for random movie
 

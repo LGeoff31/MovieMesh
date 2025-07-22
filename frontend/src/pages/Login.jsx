@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { SearchContext } from "../components/SearchContext";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  // Access global auth setters
+  const { setIsLoggedIn, setUser } = useContext(SearchContext);
 
   const navigate = useNavigate();
   
@@ -22,8 +26,23 @@ function Login() {
       return;
     }
 
-    const { access_token, token_type } = await res.json();
+    const { access_token } = await res.json();
     localStorage.setItem("token", access_token);
+
+    // Fetch user info so navbar/profile reflect login immediately
+    try {
+      const uRes = await fetch("/api/me", {
+        headers: { Authorization: `Bearer ${access_token}` },
+      });
+      if (uRes.ok) {
+        const uData = await uRes.json();
+        setUser(uData);
+      }
+    } catch (err) {
+      console.error("Failed to fetch user after login", err);
+    }
+
+    setIsLoggedIn(true);
     navigate("/");
   };
 

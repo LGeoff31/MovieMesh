@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Profile() {
   const { user } = useContext(SearchContext);
+  const [editMode, setEditMode] = useState(false);
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
@@ -29,9 +30,15 @@ export default function Profile() {
 
   return (
     <div className="max-w-3xl mx-auto mt-8">
-      <h1 className="text-3xl font-display font-bold mb-4">{user.name}</h1>
+      <div className="flex items-center my-16">
+        <img src={'/profile.jpg'} alt="Avatar" className="w-24 h-24 rounded-full" />
+        <h1 className="text-5xl font-display font-bold ml-4">{user.name}</h1>
+      </div>
       {reviews.length === 0 && <p>No reviews yet.</p>}
-      <h2 className="text-2xl font-display mb-4">Reviews</h2>
+      <div className="flex justify-between">
+        <h2 className="text-2xl font-display mb-4">My Reviews</h2>
+        <button className="bg-blue-800 text-white m-2 px-2 py-1 rounded-md cursor-pointer hover:bg-blue-900" onClick={() => setEditMode(!editMode)}>{editMode ? "Save" : "Edit"}</button>
+      </div>
       <ul className="space-y-3">
         {reviews.map((r) => (
           <Link to={`/movie/${r.movie_id}`} key={r.review_id}>
@@ -39,7 +46,9 @@ export default function Profile() {
                 <span className="text-gray-700"> {r.title}: </span>
                 <span className="font-bold">{r.rating}/10</span>
                 <span className="ml-2 text-gray-700">– {r.comment_txt}</span>
-                <button className="bg-red-800 text-white float-right px-2 py-1 ml-2 rounded-md">Delete</button>
+                {editMode && (
+                  <button className="bg-red-800 text-white float-right px-2 py-1 ml-2 rounded-md">Delete</button>
+                )}
                 <span className="float-right text-sm text-gray-400">{r.created_at}</span>
             </li>
           </Link>
