@@ -11,7 +11,7 @@ app = FastAPI(title="MovieMesh API", docs_url="/api/docs", openapi_url="/api/ope
 
 # Include routers
 app.include_router(movies_router, prefix="/api/movies", tags=["movies"])
-app.include_router(reviews_router, prefix="/api/movies", tags=["reviews"])
+app.include_router(reviews_router, prefix="/api/reviews", tags=["reviews"])
 app.include_router(auth_router, prefix="/api", tags=["auth"])
 app.include_router(users_router, prefix="/api/users", tags=["users"])
 app.include_router(actors_router, prefix="/api/actors", tags=["actors"])

@@ -1,7 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from typing import List
-from services.reviews_services import check_movie_exists, add_review, get_reviews_by_movie
+from services.reviews_services import (
+    check_movie_exists,
+    add_review,
+    get_reviews_by_movie,
+    delete_review as delete_review_service,
+)
 from models.models import ReviewIn, ReviewOut
 from database import get_db
 
@@ -19,6 +24,7 @@ def list_reviews(movie_id: int, db=Depends(get_db)):
     return get_reviews_by_movie(movie_id, db)
 
 @router.delete("/{review_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_review(review_id: int, db=Depends(get_db)):
-    delete_review(review_id, db)
-    return JSONResponse(status_code=204)
+def delete_review_endpoint(review_id: int, db=Depends(get_db)):
+    """Delete a review by its ID"""
+    delete_review_service(review_id, db)
+    return Response(status_code=204)

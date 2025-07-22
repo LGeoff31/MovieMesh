@@ -26,3 +26,4 @@ def delete_review(review_id, db):
     sql = text(load_sql("reviews/delete_review.sql"))
     db.execute(sql, {"id": review_id})
     db.commit()
+    return review_id

@@ -7,6 +7,16 @@ export default function Profile() {
   const [editMode, setEditMode] = useState(false);
   const [reviews, setReviews] = useState([]);
 
+  const handleDelete = (reviewId) => {
+    const token = localStorage.getItem("token");
+    console.log(reviewId);
+    fetch(`/api/reviews/${reviewId}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setReviews(reviews.filter((r) => r.review_id !== reviewId));
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -41,17 +51,18 @@ export default function Profile() {
       </div>
       <ul className="space-y-3">
         {reviews.map((r) => (
-          <Link to={`/movie/${r.movie_id}`} key={r.review_id}>
-            <li className="p-4 border border-gray-200 rounded-lg">
-                <span className="text-gray-700"> {r.title}: </span>
-                <span className="font-bold">{r.rating}/10</span>
-                <span className="ml-2 text-gray-700">– {r.comment_txt}</span>
-                {editMode && (
-                  <button className="bg-red-800 text-white float-right px-2 py-1 ml-2 rounded-md">Delete</button>
-                )}
-                <span className="float-right text-sm text-gray-400">{r.created_at}</span>
-            </li>
-          </Link>
+          <div key={r.review_id} className="p-4 border border-gray-200 rounded-lg flex justify-between items-center">
+            <Link to={`/movie/${r.movie_id}`} key={r.review_id}>
+            <p className="text-xs text-gray-400">{r.created_at}</p>
+            <p className="text-gray-700">
+              {r.title}: <span className="font-bold">{r.rating}/10 </span>
+              – {r.comment_txt}
+            </p>
+            </Link>
+            {editMode && (
+              <button className="bg-red-800 text-white px-2 h-8 rounded-md cursor-pointer hover:bg-red-900" onClick={() => handleDelete(r.review_id)}>Delete</button>
+            )}
+          </div>
         ))}
       </ul>
     </div>
