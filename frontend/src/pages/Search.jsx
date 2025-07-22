@@ -1,6 +1,5 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import { SearchContext } from "../components/SearchContext";
 
 export default function Search() {
@@ -31,6 +30,7 @@ export default function Search() {
             </span>
           </div>
         ))}
+        {searchResults.length === 0 && <p>No results found.</p>}
       </div>
     </>
   );

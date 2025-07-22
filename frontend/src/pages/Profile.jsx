@@ -42,13 +42,16 @@ export default function Profile() {
     <div className="max-w-3xl mx-auto mt-8">
       <div className="flex items-center my-16">
         <img src={'/profile.jpg'} alt="Avatar" className="w-24 h-24 rounded-full" />
-        <h1 className="text-5xl font-display font-bold ml-4">{user.name}</h1>
+        <div className="flex flex-col">
+          <h1 className="text-5xl font-display font-bold ml-4">{user.name}</h1>
+          <h2 className="text-2xl font-display ml-4">{user.username}</h2>
+        </div>
       </div>
-      {reviews.length === 0 && <p>No reviews yet.</p>}
       <div className="flex justify-between">
         <h2 className="text-2xl font-display mb-4">My Reviews</h2>
-        <button className="bg-blue-800 text-white m-2 px-2 py-1 rounded-md cursor-pointer hover:bg-blue-900" onClick={() => setEditMode(!editMode)}>{editMode ? "Save" : "Edit"}</button>
+        {reviews.length > 0 && <button className="bg-blue-800 text-white m-2 px-2 py-1 rounded-md cursor-pointer hover:bg-blue-900" onClick={() => setEditMode(!editMode)}>{editMode ? "Save" : "Edit"}</button>}
       </div>
+      {reviews.length === 0 && <p>No reviews yet.</p>}
       <ul className="space-y-3">
         {reviews.map((r) => (
           <div key={r.review_id} className="p-4 border border-gray-200 rounded-lg flex justify-between items-center">
