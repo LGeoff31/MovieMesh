@@ -156,3 +156,13 @@ npm run build # static files go in dist/
 
 You can then mount the `dist/` folder using `StaticFiles` in FastAPI  
 or serve it with any static web server.
+
+## 9. Implemented Features
+1. Add Review (add_review.sql)
+2. Search (search.sql)
+3. List of Highest Grossing Actors (highest_grossing_actors.sql)
+4. Delete Review (delete_review.sql)
+5. Featured Movies (get_random_movie.sql)
+6. Sign up (create_user.sql)
+7. Login (get_user.sql)
+... and more
