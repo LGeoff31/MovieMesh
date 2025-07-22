@@ -1,5 +1,3 @@
--- advanced feature: top directors as view
-
 CREATE VIEW v_top_directors AS
 SELECT d.director_id,
     d.name,

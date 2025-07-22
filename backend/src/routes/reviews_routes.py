@@ -6,6 +6,7 @@ from services.reviews_services import (
     add_review,
     get_reviews_by_movie,
     delete_review as delete_review_service,
+    get_recent_reviews,
 )
 from models.models import ReviewIn, ReviewOut
 from database import get_db
@@ -20,7 +21,7 @@ def add_review_endpoint(movie_id: int, rev: ReviewIn, db=Depends(get_db)):
     return JSONResponse({"review_id": review_id}, status_code=201)
     
 @router.get("/{movie_id}/reviews", response_model=List[ReviewOut])
-def list_reviews(movie_id: int, db=Depends(get_db)):
+def list_reviews_endpoint(movie_id: int, db=Depends(get_db)):
     return get_reviews_by_movie(movie_id, db)
 
 @router.delete("/{review_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -28,3 +29,7 @@ def delete_review_endpoint(review_id: int, db=Depends(get_db)):
     """Delete a review by its ID"""
     delete_review_service(review_id, db)
     return Response(status_code=204)
+
+@router.get("/recent-reviews", response_model=List[ReviewOut])
+def get_recent_reviews_endpoint(db=Depends(get_db)):
+    return get_recent_reviews(db)

@@ -7,5 +7,6 @@ SELECT m.movie_id,
        m.poster_link
 FROM movies m
 LEFT JOIN movie_rating mr ON m.movie_id = mr.movie_id
+WHERE mr.rating > 8
 ORDER BY RAND()
 LIMIT 3;

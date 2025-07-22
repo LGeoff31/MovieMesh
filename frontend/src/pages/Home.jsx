@@ -1,13 +1,14 @@
 import Featured from "../components/Featured";
 import HighestGrossingActors from "../components/HighestGrossingActors";
+import RecentReviews from "../components/RecentReviews";
 
 const Home = () => {
   return (
-    <>
+    <div className="flex flex-col justify-start items-start w-2/3 mx-auto mb-10">
       <Featured />
-      {/* <h1 className="text-2xl font-bold">Recent Reviews</h1> */}
+      <RecentReviews />
       <HighestGrossingActors />
-    </>
+    </div>
   )
 }
 

@@ -22,6 +22,8 @@ class ReviewOut(BaseModel):
     comment_txt: str
     created_at: datetime
     username: str
+    title: str | None = None
+    movie_id: int | None = None
 
 class ReviewOutWithMovie(BaseModel):
     review_id: int
