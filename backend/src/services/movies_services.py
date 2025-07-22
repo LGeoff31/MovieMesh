@@ -84,3 +84,9 @@ def get_movie_detail(db, movie_id: int):
         "genres": [g["name"] for g in genres_rows],
         "reviews_summary": reviews_summary
     }
+
+def get_top_movies(db):
+    """Get top movies by average rating across all reviews"""
+    sql = text(load_sql("lists/get_highest_rated_movies.sql"))
+    rows = fetch_all(db, sql)
+    return rows

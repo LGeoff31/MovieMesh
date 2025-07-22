@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from typing import List
 from database import get_db
 from models.models import MovieOut
-from services.movies_services import search_movies, get_movie_detail, get_random_movie, search_autocomplete
+from services.movies_services import search_movies, get_movie_detail, get_random_movie, search_autocomplete, get_top_movies
 from datetime import datetime, timedelta
 
 router = APIRouter()
@@ -29,6 +29,11 @@ def random_movie(db=Depends(get_db)):
         _random_cache["last_updated"] = now
         
     return _random_cache["movies"]
+
+@router.get("/top", response_model=List[MovieOut])
+def top_movies(db=Depends(get_db)):
+    """Get top movies by average rating across all reviews"""
+    return get_top_movies(db)
 
 @router.get("/{movie_id}")
 def movie_detail(movie_id: int, db=Depends(get_db)):

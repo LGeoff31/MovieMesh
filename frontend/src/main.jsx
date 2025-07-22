@@ -8,8 +8,10 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
-import Analytics from "./pages/Analytics";
-import Lists from "./pages/Lists";
+import Actors from "./pages/Actors";
+import Directors from "./pages/Directors";
+import Movies from "./pages/Movies";
+import Actor from "./pages/Actor";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -21,9 +23,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/movie/:id" element={<Movie />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/lists" element={<Lists />} />
+        <Route path="/lists/actors" element={<Actors />} />
+        <Route path="/lists/directors" element={<Directors />} />
+        <Route path="/lists/movies" element={<Movies />} />
         <Route path="/profile/:id" element={<Profile />} />
+        <Route path="/actors/:id" element={<Actor />} />
       </Route>
     </Routes>
   </BrowserRouter>

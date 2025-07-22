@@ -3,9 +3,9 @@ SELECT
     m.title,
     m.year,
     m.poster_link,
-    AVG(r.rating) AS avg_rating
+    AVG(mr.rating) AS imdb_rating
 FROM movies m
-LEFT JOIN reviews r ON m.movie_id = r.movie_id
+LEFT JOIN movie_rating mr ON m.movie_id = mr.movie_id
 GROUP BY m.movie_id
-ORDER BY avg_rating DESC
+ORDER BY imdb_rating DESC
 LIMIT 10;

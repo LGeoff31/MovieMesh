@@ -19,7 +19,7 @@ const RecentReviews = () => {
         <h1 className="text-3xl font-extrabold">RECENT REVIEWS</h1>
         <p className="text-gray-500 ml-4">Latest reviews from our users</p>
       </div>
-      <div className="flex flex-col items-start justify-start w-full">
+      <div className="flex flex-col items-start justify-start w-full gap-2">
         {reviews.map(review => (
           <Link to={`/movie/${review.movie_id}`} key={review.review_id} className="p-4 border border-gray-200 rounded-lg w-full">
             <div className="flex items-center gap-2">

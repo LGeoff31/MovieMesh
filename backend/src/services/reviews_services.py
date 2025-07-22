@@ -7,10 +7,6 @@ def check_movie_exists(movie_id, db):
     return db.execute(sql, {"id": movie_id}).first()
 
 def add_review(movie_id, rating, comment, user_id, db):
-    sql = text(load_sql("CS348/advanced/trigger.sql"))
-    db.execute(sql)
-    db.commit()
-
     sql = text(load_sql("reviews/add_review.sql"))
     res = db.execute(sql, {"m": movie_id, "u": user_id, "r": rating, "c": comment})
     db.commit()
@@ -27,10 +23,6 @@ def get_reviews_by_user(user_id, db):
     return rows
 
 def delete_review(review_id, db):
-    sql = text(load_sql("CS348/advanced/trigger.sql"))
-    db.execute(sql)
-    db.commit()
-
     sql = text(load_sql("reviews/delete_review.sql"))
     db.execute(sql, {"id": review_id})
     db.commit()

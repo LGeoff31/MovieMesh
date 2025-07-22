@@ -6,7 +6,7 @@ import { SearchContext } from "./SearchContext";
 const SearchBar = () => {
   const [term, setTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const {setSearchResults} = useContext(SearchContext);
+  const {searchResults, setSearchResults} = useContext(SearchContext);
   const [autocompleteResults, setAutocompleteResults] = useState([]);
   
   const navigate = useNavigate();
@@ -48,6 +48,7 @@ const SearchBar = () => {
       .then(setSearchResults)
       .then(() => setAutocompleteResults([]));
     navigate(`/search?q=${encodeURIComponent(term)}`);
+    console.log(searchResults)
   };
 
   return (
@@ -57,7 +58,7 @@ const SearchBar = () => {
           type="text"
           value={term}
           onChange={updateAutocomplete}
-          onBlur={() => setAutocompleteResults([])}
+          onBlur={() => setTimeout(() => setAutocompleteResults([]), 200)}
           placeholder="Search movies..."
           className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
