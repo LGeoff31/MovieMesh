@@ -5,11 +5,11 @@ from typing import Optional
 class MovieOut(BaseModel):
     movie_id: int
     title: str
-    year: int | None
-    imdb_rating: float | None
-    certificate: str | None
-    runtime_min: int | None
-    poster_link: str | None
+    year: int | None = None
+    imdb_rating: float | None = None
+    certificate: str | None = None
+    runtime_min: int | None = None
+    poster_link: str | None = None
 
 class ReviewIn(BaseModel):
     rating: int = Field(..., ge=1, le=10)
@@ -22,6 +22,8 @@ class ReviewOut(BaseModel):
     comment_txt: str
     created_at: datetime
     username: str
+    title: str | None = None
+    movie_id: int | None = None
 
 class ReviewOutWithMovie(BaseModel):
     review_id: int
@@ -60,3 +62,17 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: Optional[str] = None
+
+class ActorOut(BaseModel):
+    actor_id: int
+    name: str
+    total_gross: float | None = None
+
+class DirectorOut(BaseModel):
+    director_id: int
+    name: str
+    avg_rating: float | None = None
+    film_count: int | None = None
+
+class RatingByUserOut(BaseModel):
+    avg_rating: float | None = None

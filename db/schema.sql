@@ -19,7 +19,8 @@ CREATE TABLE
         overview TEXT,
         gross_usd BIGINT,
         poster_link VARCHAR(512),
-        INDEX idx_title (title)
+        INDEX idx_title (title),
+        FULLTEXT INDEX idx_title_full (title)
     );
 
 CREATE TABLE

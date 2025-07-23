@@ -27,4 +27,4 @@ with eng.begin() as conn, open(csv_path, newline='',encoding='utf-8') as fh:
             VALUES (:id,:u,:n,:p)
             ON DUPLICATE KEY UPDATE username=VALUES(username),name=VALUES(name)
         """),{"id":int(row['user_id']),"u":row['username'],"n":row['name'],"p":hash})
-print("Users loaded ✅") 
+print("Users loaded ✅")

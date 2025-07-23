@@ -5,7 +5,7 @@ export default function ReviewList({ movieId }) {
   const colours = ["text-red-600", "text-red-600", "text-red-600", "text-orange-600", "text-orange-600", "text-orange-600", "text-yellow-600", "text-yellow-600", "text-green-700", "text-green-700", "text-green-700"]
   
   useEffect(() => {
-    fetch(`/api/movies/${movieId}/reviews`)
+    fetch(`/api/reviews/${movieId}/reviews`)
       .then(r => r.json()).then(setRev);
   }, [movieId]);
 

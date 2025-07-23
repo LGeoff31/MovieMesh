@@ -9,7 +9,7 @@ export default function ReviewForm({ movieId, onSubmit }) {
 
   const handle = (e) => {
     e.preventDefault();
-    fetch(`/api/movies/${movieId}/reviews`, {
+    fetch(`/api/reviews/${movieId}/reviews`, {
       method: 'POST',
       headers: { 'Content-Type':'application/json' },
       body: JSON.stringify({ rating:Number(rating), comment, user_id:user.user_id })

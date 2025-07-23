@@ -6,15 +6,17 @@ from routes.reviews_routes import router as reviews_router
 from routes.auth_routes import router as auth_router
 from routes.users_routes import router as users_router
 from routes.actors_routes import router as actors_router
+from routes.directors_routes import router as directors_router
 
 app = FastAPI(title="MovieMesh API", docs_url="/api/docs", openapi_url="/api/openapi.json")
 
 # Include routers
 app.include_router(movies_router, prefix="/api/movies", tags=["movies"])
-app.include_router(reviews_router, prefix="/api/movies", tags=["reviews"])
+app.include_router(reviews_router, prefix="/api/reviews", tags=["reviews"])
 app.include_router(auth_router, prefix="/api", tags=["auth"])
 app.include_router(users_router, prefix="/api/users", tags=["users"])
 app.include_router(actors_router, prefix="/api/actors", tags=["actors"])
+app.include_router(directors_router, prefix="/api/directors", tags=["directors"])
 
 # Allow front-end JS served by same host
 app.add_middleware(

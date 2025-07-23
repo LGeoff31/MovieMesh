@@ -14,6 +14,7 @@ security = HTTPBearer(auto_error=False)
 @router.post("/register", response_model=UserOut)
 def register(user: UserCreate, db=Depends(get_db)):
     """Register a new user"""
+    print(user)
     db_user = create_user(db, user)
     return UserOut(
         user_id=db_user.user_id,
