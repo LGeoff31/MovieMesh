@@ -85,6 +85,23 @@ def get_movie_detail(db, movie_id: int):
         "reviews_summary": reviews_summary
     }
 
+def get_rating_chart(db, movie_id: int):
+    """Get rating chart for a specific movie"""
+    sql = text(load_sql("reviews/count_reviews_by_rating.sql"))
+    rows = db.execute(sql, {"id": movie_id}).mappings().all()
+    ratings = [0] * 10
+    for row in rows:
+        ratings[int(row["rating"]) - 1] = row["num_reviews"]
+    return ratings
+
+def get_rating_by_user(db, movie_id: int, user_id: int):
+    """Get rating by user"""
+    sql = text(load_sql("reviews/rating_by_user.sql"))
+    row = db.execute(sql, {"movie_id": movie_id, "user_id": user_id}).mappings().first()
+    if row:
+        return float(row["avg_rating"])
+    return None
+
 def get_top_movies(db):
     """Get top movies by average rating across all reviews"""
     sql = text(load_sql("lists/get_highest_rated_movies.sql"))

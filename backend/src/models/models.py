@@ -73,3 +73,6 @@ class DirectorOut(BaseModel):
     name: str
     avg_rating: float | None = None
     film_count: int | None = None
+
+class RatingByUserOut(BaseModel):
+    avg_rating: float | None = None
