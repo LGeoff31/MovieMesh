@@ -12,3 +12,4 @@ BEGIN
     votes = votes + 1;
 END$$
 DELIMITER ;
+

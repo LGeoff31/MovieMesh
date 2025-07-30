@@ -12,3 +12,5 @@ LEFT JOIN movie_rating mr ON m.movie_id = mr.movie_id
 WHERE MATCH(m.title) AGAINST (:prefix IN BOOLEAN MODE)
 ORDER BY mr.rating DESC
 LIMIT 5;
+
+
