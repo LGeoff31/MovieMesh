@@ -1,3 +1,6 @@
+
+
+
 WITH RECURSIVE co_stars(actor_id, name, depth, path) AS (
     SELECT a.actor_id, a.name, 0 AS depth, CAST(a.actor_id AS CHAR(200)) AS path
     FROM actors a
@@ -17,3 +20,5 @@ WITH RECURSIVE co_stars(actor_id, name, depth, path) AS (
 SELECT DISTINCT actor_id, name
 FROM co_stars
 WHERE depth = 1;
+
+

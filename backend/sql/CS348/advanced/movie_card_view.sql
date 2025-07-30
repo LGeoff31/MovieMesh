@@ -1,4 +1,4 @@
-
+-- advanced feature: show movie card
 
 DROP VIEW IF EXISTS v_movie_card;
 

@@ -1,4 +1,4 @@
-
+-- advanced feature: show top directors
 
 CREATE VIEW v_top_directors AS
 SELECT d.director_id,
